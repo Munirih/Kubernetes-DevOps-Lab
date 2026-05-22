@@ -1,5 +1,4 @@
 *.csr
 *.crt
 *.key
-*.pem
 *-csr.yaml

@@ -216,7 +216,7 @@ metadata:
   name: pod-reader-global
 subjects:
 - kind: User
-  name: munirih
+  name: user-name
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
