@@ -1,0 +1,35 @@
+# ---------------------------#
+*.csr
+*.pem
+*.p12
+*.pfx
+
+/*.key
+/*.crt
+/*.csr
+/*.pem
+/*-csr.yaml
+
+
+# Kubernetes Certificate Signing Requests
+*-csr.yaml
+
+# Base64 / encoded secrets (optional safety)
+*.enc
+
+# ---------------------------
+# 📂 Kubernetes temporary files
+# ---------------------------
+*.tmp
+*.log
+
+# ---------------------------
+# 🔐 Sensitive security files
+# ---------------------------
+*.key
+*.crt
+*.csr
+
+
+# Base64 / encoded secrets (optional safety)
+*.enc
