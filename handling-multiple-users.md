@@ -1,6 +1,8 @@
 # Handling Multiple Users
 
-The following example we will create three additional users, Jordan, Emma and Taylor. Jordan and Emma will be assigned to the group `devops` and one Taylor to the group `dev`. Each user should be aunthenticated and then we will modify the cluster-role-binding yaml file to bind the users to their roles.
+Refer to the authentication and authorisation documentation [here](./AUTH.md) for a detailed guide on authentication and authorisation.
+
+We will create three additional users, Jordan, Emma and Taylor. Jordan and Emma will be assigned to the group `devops` and Taylor will be assigned to the group `dev`. The devops group can create, delete and list pods while the dev group can anly list pods. 
 
 
 - User 1: Jordan 
@@ -98,7 +100,7 @@ kubectl get csr jordan -o jsonpath='{.status.certificate}' | base64 -d > jordan.
 kubectl get csr emma -o jsonpath='{.status.certificate}' | base64 -d > emma.crt
 kubectl get csr taylor -o jsonpath='{.status.certificate}' | base64 -d > taylor.crt
 ```
-- Add users to KubeConfig
+- Add users to KubeConfig file
 ```
 
 kubectl config set-credentials jordan --client-key=jordan.key --client-certificate=jordan.crt --embed-certs=true
@@ -193,9 +195,11 @@ roleRef:
 
 `kubectl get pods -n test`
 
+The following command will produce an error as dev group can only view pods.
+
 `kubectl run nginx --image=nginx`
 
-Outputs
+Expected outputs
 
 ![alt text](image-15.png)
 ![alt text](image-16.png)
@@ -214,6 +218,8 @@ Outputs
 `kubectl delete po -n test nginx` 
 
 `kubectl run nginx --image=nginx -n test`
+
+Expected outputs
 
 ![alt text](image-13.png)
 
