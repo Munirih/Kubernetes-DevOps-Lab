@@ -1,9 +1,14 @@
 # Handling Multiple Users
 
-Refer to the authentication and authorisation documentation [here](./AUTH.md) for a detailed guide on authentication and authorisation.
+For a detailed explanation of authentication and authorization, refer to this documentation [here](./AUTH.md).
 
-We will create three additional users, Jordan, Emma and Taylor. Jordan and Emma will be assigned to the group `devops` and Taylor will be assigned to the group `dev`. The devops group can create, delete and list pods while the dev group can anly list pods. 
+This guide demonstrates how to handle multiple users using Role-Based Access Control (RBAC).
+We will create three additional users: Jordan, Emma, and Taylor.
 
+Jordan and Emma will be assigned to the devops group, which has permission to manage pods.
+Taylor will be assigned to the dev group, which has permission to view pods only.
+
+The objective is to assign roles to groups instead of assigning permissions to individual users. 
 
 - User 1: Jordan 
 ```
@@ -124,7 +129,7 @@ kubectl config set-context taylor-context --cluster=local-cluster --user=taylor
 `kubectl config get-contexts`
 
 
-- Modify the cluster-role-binding file for the dev group.
+- Modify the cluster-role-binding file for the dev group. This will assign a role to a group rather than assigning a role to individual users.
 
 dev-cluster-role-binding.yaml
 ```yaml

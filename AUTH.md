@@ -1,4 +1,6 @@
-# A step-by-step guide on how to add a user in Kubernetes with certificates and RBAC
+# Step-by-Step Guide: Adding a User in Kubernetes with Certificates and RBAC
+
+This guide demonstrates how to add a new user to a Kubernetes cluster using client certificates and assign permissions using RBAC (Role-Based Access Control).
 
 ### Pre-requisite
 
@@ -24,11 +26,11 @@ This tells Git Bash not to treat /CN=... as a filesystem path.
 
 #### 1.3 Encode the CSR in base64
 
-The output will be used in the Kubernetes resource.
+The output will be used in create a CSR resource.
 
 `cat user-name.csr | base64 | tr -d "\n"`
 
-#### 1.4 Create a Kubernetes CSR Resource 
+#### 1.4 Create a Kubernetes CSR resource
 
 create a file named `user-csr.yaml` and insert the following configuration:
 
@@ -40,12 +42,12 @@ metadata:
 spec:
   request: <paste the encoded csr here>
   signerName: kubernetes.io/kube-apiserver-client
-  expirationSeconds: 864000  # 10 days
+  expirationSeconds: 8640000  # 100 days
   usages:
   - client auth
   ```
 
-Copy the encoded CSR into the file and then edit or omit the expiration date (in seconds) of the CSR.
+Copy the encoded CSR into the file and then edit the expiration date of the CSR.
 Apply the yaml file to create the CSR resource.
 
 `kubectl apply -f user-csr.yaml`
@@ -55,17 +57,17 @@ Apply the yaml file to create the CSR resource.
 
 `kubectl get csr`
 
-The expected output will be like this:
+The expected output:
 
 ![alt text](image-2.png)
 
-The request is `pending` and needs to be approved or denied by an authorised Kubernetes admin which you are login. Use the following command to approve:
+The request is `pending` and has to be approved or denied by a Certificate Authority (CA).
 
 `kubectl certificate approve user-name`
 
 #### 1.6 Get the signed certificate
 
-The user certificate has to be retrieved, decoded from the approved CSR and stored in a .crt file. This will be used to create to add the user in the kubeconfig file later.
+The user certificate has to be retrieved, decoded from the approved CSR and stored in a .crt file. This will be used to add the user in the kubeconfig file.
 
 `kubectl get csr user-name -o jsonpath='{.status.certificate}'| base64 -d > user-name.crt`
 
@@ -189,7 +191,7 @@ The user can only view pods within the default namespace however he/she cannot c
 
 `kubectl get pods -n test`
 
-The output will be a forbidden error. The solution will be to grant user access to list pods within the cluster.
+The output will produce an error. The solution will be to grant user access to list pods within the cluster.
 
 - Switch back again to admin 
 
@@ -240,6 +242,8 @@ roleRef:
 - Switch back to admin context before proceeding to the next step
 
 `kubectl config use-context admin-context-name`
+
+Refer to this documentation [here](./handling-multiple-users.md) on how to handle multiple users with RBAC.
 
 
 
