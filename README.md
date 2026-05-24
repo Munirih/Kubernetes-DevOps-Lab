@@ -6,7 +6,7 @@ This project demonstrates a hands-on approach to working with Kubernetes using M
 
 [Deploy a simple flask app on minikube](./DEPLOY.md)
 
-[Monitoring with Prometheus and Grafana](./monitoring)
+[Monitoring with Prometheus and Grafana](./monitoring.md)
 
 [User Authentication and Authorisation ](./AUTH.md)
 
